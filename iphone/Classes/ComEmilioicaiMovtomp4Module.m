@@ -88,9 +88,9 @@
 
 #pragma Public APIs
 
-- (void) convert:(id)videoURL {
+- (void) convert:(NSString*)videoURL {
     ENSURE_TYPE_OR_NIL(videoURL,NSString);
-    NSURL *inputURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), videoURL]];
+    NSURL *inputURL = [NSURL URLWithString:videoURL];
     // Create the asset url with the video file
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
     NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
