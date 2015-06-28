@@ -4,7 +4,7 @@ This is an iOS module for titnamium to convert mov files into MP4.
 
 Sometimes we need to develop applications both for android and iOS that uses the videos captured from the devices.By default iOS saves the video in .mov format which can not be played on the android devices.To make the iOS videos compatible for all devices(android and iOS) we use a common video format and that is .mp4. Now we can achieve this by using AVFoundation framework.
 
-##USAGE
+##Usage
 First you need to unzip the module zipfile into the `modules` folder in your project
 
 Then you need to include the module in your tiapp.xml:
@@ -25,3 +25,7 @@ movtomp4.convert(filePath, function(result){
 ###convert(filePath, callBack)
 triggers the native conversion of the file in `filePath` into an MP4 file which will be saved and which location will be passed to the callBack provided. [IMPORTANT] at the moment the input file should contain the '.mov' extension for the native conversor to recognize the file as a Quicktime file.
 
+###Help for building native modules in Titanium
+- Slide Share from Omorandi: http://www.slideshare.net/omorandi/ticonf?next_slideshow=1
+- Rypress Objective-C tutorial: http://rypress.com/tutorials/objective-c/
+- iOS bucket blog: http://iosbucket.blogspot.in/2015/04/mp4-conversion-and-video-merging-in-ios.html
