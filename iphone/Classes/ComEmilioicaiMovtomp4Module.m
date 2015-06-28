@@ -89,8 +89,11 @@
 #pragma Public APIs
 
 - (void) convert:(id)args {
-    if ([args count] > 0) {
+    if ([args count] == 2) {
         NSString *inputUrlString = [args objectAtIndex:0];
+        KrollCallback *cb = [args objectAtIndex:1];
+        ENSURE_TYPE(cb, KrollCallback);
+        
         NSURL *inputURL = [NSURL fileURLWithPath: inputUrlString];
         //Check if the file already exists then remove the previous file
         if (![[NSFileManager defaultManager]fileExistsAtPath:inputUrlString])
@@ -121,14 +124,15 @@
                 {
                     case AVAssetExportSessionStatusFailed:
                         NSLog(@"Error Exporting: %@", [exportSession error]);
-                        break;
-                    case AVAssetExportSessionStatusCancelled:
-                        NSLog(@"Export canceled");
+                        [self _fireEventToListener:@"error" withObject:nil listener:cb thisObject:nil];
                         break;
                     case AVAssetExportSessionStatusCompleted:
                     {
-                        //Video conversion finished
-                        NSLog(@"Successful!");
+                        NSLog(@"Video conversion finished");
+                        NSDictionary *cbArgs = @{
+                            @"filePath": [NSString stringWithFormat:@"%@.mp4", inputUrlString]
+                        };
+                        [self _fireEventToListener:@"success" withObject:cbArgs listener:cb thisObject:nil];
                     }
                         break;
                     default:
