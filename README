@@ -22,6 +22,6 @@ movtomp4.convert(filePath, function(result){
 
 ```
 
-###convert(<filePath>, <callBack>)
-triggers the native conversion of the file in <filePath> into an MP4 file which will be saved and which location will be passed to the callBack provided. [IMPORTANT] at the moment the input file should contain the '.mov' extension for the native conversor to recognize the file as a Quicktime file.
+###convert(filePath, callBack)
+triggers the native conversion of the file in `filePath` into an MP4 file which will be saved and which location will be passed to the callBack provided. [IMPORTANT] at the moment the input file should contain the '.mov' extension for the native conversor to recognize the file as a Quicktime file.
 
