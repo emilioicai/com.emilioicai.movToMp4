@@ -88,58 +88,60 @@
 
 #pragma Public APIs
 
-- (void) convert:(NSString*)videoURL {
-    ENSURE_TYPE_OR_NIL(videoURL,NSString);
-    NSURL *inputURL = [NSURL URLWithString:videoURL];
-    // Create the asset url with the video file
-    AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
-    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
-    
-    // Check if video is supported for conversion or not
-    if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
-    {
-        //Create Export session
-        AVAssetExportSession *exportSession = [[AVAssetExportSession       alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
-        
-        //Creating temp path to save the converted video
-        NSString* documentsDirectory=     [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString* myDocumentPath= [documentsDirectory stringByAppendingPathComponent:@"temp.mp4"];
-        NSURL *url = [[NSURL alloc] initFileURLWithPath:myDocumentPath];
-        
+- (void) convert:(id)args {
+    if ([args count] > 0) {
+        NSString *inputUrlString = [args objectAtIndex:0];
+        NSURL *inputURL = [NSURL fileURLWithPath: inputUrlString];
         //Check if the file already exists then remove the previous file
-        if ([[NSFileManager defaultManager]fileExistsAtPath:myDocumentPath])
+        if (![[NSFileManager defaultManager]fileExistsAtPath:inputUrlString])
         {
-            [[NSFileManager defaultManager]removeItemAtPath:myDocumentPath error:nil];
+            NSLog(@"Input file doesn't exist: %@", inputUrlString);
+            return;
         }
-        exportSession.outputURL = url;
-        //set the output file format if you want to make it in other file format (ex .3gp)
-        exportSession.outputFileType = AVFileTypeMPEG4;
-        exportSession.shouldOptimizeForNetworkUse = YES;
-        
-        [exportSession exportAsynchronouslyWithCompletionHandler:^{
-            switch ([exportSession status])
-            {
-                case AVAssetExportSessionStatusFailed:
-                    NSLog(@"Export session failed");
-                    break;
-                case AVAssetExportSessionStatusCancelled:
-                    NSLog(@"Export canceled");
-                    break;
-                case AVAssetExportSessionStatusCompleted:
+        // Create the asset url with the video file
+        AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
+        NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    
+        // Check if video is supported for conversion or not
+        if ([compatiblePresets containsObject:AVAssetExportPresetLowQuality])
+        {
+            //Create Export session
+            AVAssetExportSession *exportSession = [[AVAssetExportSession       alloc]initWithAsset:avAsset presetName:AVAssetExportPresetLowQuality];
+            
+            NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.mp4", inputUrlString]];
+            NSLog(@"Exporting to: %@", [NSString stringWithFormat:@"%@.mp4", inputUrlString]);
+            
+            exportSession.outputURL = url;
+            //set the output file format if you want to make it in other file format (ex .3gp)
+            exportSession.outputFileType = AVFileTypeMPEG4;
+            exportSession.shouldOptimizeForNetworkUse = YES;
+
+            [exportSession exportAsynchronouslyWithCompletionHandler:^{
+                switch ([exportSession status])
                 {
-                    //Video conversion finished
-                    NSLog(@"Successful!");
+                    case AVAssetExportSessionStatusFailed:
+                        NSLog(@"Error Exporting: %@", [exportSession error]);
+                        break;
+                    case AVAssetExportSessionStatusCancelled:
+                        NSLog(@"Export canceled");
+                        break;
+                    case AVAssetExportSessionStatusCompleted:
+                    {
+                        //Video conversion finished
+                        NSLog(@"Successful!");
+                    }
+                        break;
+                    default:
+                        break;
                 }
-                    break;
-                default:
-                    break;
-            }
-        }];
-    }
-    else
-    {
-        NSLog(@"Video file not supported!");
+            }];
+        }
+        else
+        {
+            NSLog(@"Video file not supported!");
+        }
     }
 }
+
 
 @end

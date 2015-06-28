@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>8A78EECC-3A75-40BC-91A1-BF03636514C1</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>movToMp4</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>7A2CBBA013AC2197E2ABE9CD7FCBEAA34C40A7E9</key>
 		<string>github.com:emilioicai/com.emilioicai.movToMp4.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>iphone/movToMp4.xcodeproj/project.xcworkspace</string>
+	<string>iphone/movToMp4.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>7A2CBBA013AC2197E2ABE9CD7FCBEAA34C40A7E9</key>
