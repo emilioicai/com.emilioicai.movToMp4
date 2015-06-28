@@ -1,39 +1,27 @@
-# movToMp4 Module
+# com.emilioicai.movToMp4
+## What is this?
+This is an iOS module for titnamium to convert mov files into MP4.
 
-## Description
+Sometimes we need to develop applications both for android and iOS that uses the videos captured from the devices.By default iOS saves the video in .mov format which can not be played on the android devices.To make the iOS videos compatible for all devices(android and iOS) we use a common video format and that is .mp4. Now we can achieve this by using AVFoundation framework.
 
-TODO: Enter your module description here
+##USAGE
+First you need to unzip the module zipfile into the `modules` folder in your project
 
-## Accessing the movToMp4 Module
+Then you need to include the module in your tiapp.xml:
+`<module platform="iphone" version="1.0.1">com.emilioicai.movtomp4</module>`
 
-To access this module from JavaScript, you would do the following:
+Then you are ready to use it:
 
-    var movtomp4 = require("com.emilioicai.movtomp4");
+```javascript
+var movtomp4 = require('com.emilioicai.movtomp4');
+//[IMPORTANT] At the moment the module requires the file to have a '.mov' extension
+var filePath = '/var/mobile/Containers/Data/Application/DDA6SA66D53S/Documents/testMovie.mov';
+movtomp4.convert(filePath, function(result){
+	console.log(result.filePath);
+});
 
-The movtomp4 variable is a reference to the Module object.
+```
 
-## Reference
+###convert(filePath, callBack)
+triggers the native conversion of the file in `filePath` into an MP4 file which will be saved and which location will be passed to the callBack provided. [IMPORTANT] at the moment the input file should contain the '.mov' extension for the native conversor to recognize the file as a Quicktime file.
 
-TODO: If your module has an API, you should document
-the reference here.
-
-### movtomp4.function
-
-TODO: This is an example of a module function.
-
-### movtomp4.property
-
-TODO: This is an example of a module property.
-
-## Usage
-
-TODO: Enter your usage example here
-
-## Author
-
-TODO: Enter your author name, email and other contact
-details you want to share here.
-
-## License
-
-TODO: Enter your license/legal information here.
